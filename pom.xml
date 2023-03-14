@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.que.ads</groupId>
+        <artifactId>ds-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <groupId>com.que.ads</groupId>
+    <artifactId>ds-queads</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <modules>
+        <module>ds-queads-service</module>
+        <module>ds-queads-data</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>17</java.version>
+        <ds.security.core.version>1.0.0-SNAPSHOT</ds.security.core.version>
+        <ds.queads.data.version>1.0.0-SNAPSHOT</ds.queads.data.version>
+        <ds.common.version>1.0.0-SNAPSHOT</ds.common.version>
+        <jakarta.servlet.api>5.0.0</jakarta.servlet.api>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.que.ads</groupId>
+                <artifactId>ds-security-core</artifactId>
+                <version>${ds.security.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.que.ads</groupId>
+                <artifactId>ds-queads-data</artifactId>
+                <version>${ds.queads.data.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.que.ads.ds</groupId>
+                <artifactId>ds-common</artifactId>
+                <version>${ds.common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta.servlet.api}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
