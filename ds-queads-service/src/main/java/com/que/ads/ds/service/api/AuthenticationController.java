@@ -1,11 +1,11 @@
 package com.que.ads.ds.service.api;
 
 import com.que.ads.ds.common.data.ErrorResponse;
-import com.que.ads.ds.security.models.request.LoginModel;
-import com.que.ads.ds.security.models.request.RegisterModel;
-import com.que.ads.ds.security.models.request.TokenRefreshModel;
+import com.que.ads.ds.security.models.request.*;
 import com.que.ads.ds.security.models.response.AuthenticationResponseModel;
+import com.que.ads.ds.security.models.response.ForgotPasswordResponseModel;
 import com.que.ads.ds.security.models.response.RegisterResponseModel;
+import com.que.ads.ds.security.models.response.ResetPasswordResponseModel;
 import com.que.ads.ds.security.service.AuthenticationService;
 import com.que.ads.ds.security.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,7 +47,7 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "422", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public AuthenticationResponseModel refresh(@RequestBody TokenRefreshModel tokenRefreshModel) {
+    public AuthenticationResponseModel refresh(@RequestBody @Valid TokenRefreshModel tokenRefreshModel) {
         return authenticationService.refreshToken(tokenRefreshModel);
     }
 
@@ -59,7 +59,7 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "422", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public RegisterResponseModel register(@RequestBody RegisterModel registerModel) {
+    public RegisterResponseModel register(@RequestBody @Valid RegisterModel registerModel) {
         return userService.register(registerModel);
     }
 
@@ -85,5 +85,31 @@ public class AuthenticationController {
     @Parameter(name = "username", required = true, in = ParameterIn.PATH, schema = @Schema(type = "string"), description = "Username you are checking against.")
     public void checkUsername(@PathVariable String username) {
         userService.checkUsername(username);
+    }
+
+    @PostMapping("/forgot-password")
+    @Operation(description = "forgot password.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ForgotPasswordModel.class))),
+            @ApiResponse(responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "422", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    public ForgotPasswordResponseModel forgotPassword(@RequestBody @Valid ForgotPasswordModel forgotPasswordModel) {
+        return userService.forgotPassword(forgotPasswordModel);
+    }
+
+    @PostMapping("/reset-password")
+    @Operation(description = "reset password.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ResetPasswordModel.class))),
+            @ApiResponse(responseCode = "400", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "422", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @Parameter(name = "key", required = true, in = ParameterIn.QUERY, schema = @Schema(type = "string"), description = "Forgot password key which was set when ypu request to reset the password.")
+    public ResetPasswordResponseModel forgotPassword(@RequestBody @Valid ResetPasswordModel resetPasswordModel,
+                                                     @RequestParam(name = "key") String forgotPasswordKey) {
+        return userService.resetPassword(resetPasswordModel, forgotPasswordKey);
     }
 }

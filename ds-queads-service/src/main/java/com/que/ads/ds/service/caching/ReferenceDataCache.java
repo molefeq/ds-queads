@@ -111,6 +111,7 @@ public class ReferenceDataCache {
         List<Category> entities = categoryRepository.findAll();
 
         categories = entities.stream().map(item -> CategoryModel.toModel(item)).collect(Collectors.toList());
+
         categories.stream().forEach(item -> {
             item.setSubCategories(subCategories.stream().filter(c -> c.getCategoryId() == item.getId()).toList());
         });
