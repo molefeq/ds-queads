@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @ComponentScan(basePackages = {
-        "com.que.ads.ds.security"
+        "com.que.ads.ds.security", "com.que.ads.ds.common"
 })
 @EnableJpaRepositories(basePackages = {"com.que.ads.ds.security.repository"})
 @EntityScan(basePackages = {
